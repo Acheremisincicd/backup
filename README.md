@@ -32,9 +32,10 @@ Then run ```exportfs -a``` and restart the nfs-server.service
 ```0 1 * * * root backup.sh -o "daily" -e "some mail to recieve msg" -z "pass for backups -p "database password" -l "data base login" -d "data base name" "Salt key for decrypting mail credentials stored in file"```
 
 - weekly 
+``` 0 2 * * 6 root test $((10#$(date +\%W)\%2)) -eq 1 && backup.sh -o "weekly" -e "some mail to recieve msg" -z "pass for backups -p "database password" -l "data base login" -d "data base name" "Salt key for decrypting mail credentials stored in file"```
 
-``` 0 2 * * 6 root test $((10#$(date +\%W)\%2)) -eq 1 && backup.sh -o "weekly" -e "some mail to recieve msg" -z "pass for backups -p "database password" -l "data base login" -d "data base name" "Salt key for decrypting mail credentials stored in file"
-```
+There isn't some simple solution to run a cron every two weeks. Expresion determinates that current week ODD or even and returns 1 or 0 respectively. Current week is 19-th so cron job will do.
+
 # Script workflow
 - VARS
 
