@@ -61,7 +61,7 @@ is looking for files older than 3 months in weekly backups(exclude files with pa
 - STATEMENTS
 
 First ```IF``` checks $BACKUP_FOLDER size and if it is more than you specified in $MAX_SIZE var script will fail and call email_sender function to send a message about error.
-IF $BACKUP_FOLDER size is OK - script checks current day and compare it with last day in month. if it is some $PATTERN will be added to backups. if it isn't backups will be stored with default names.
+IF $BACKUP_FOLDER size is OK - script checks current day and compare it with last day in month. if it is - some $PATTERN will be added to backups. if it isn't backups will be stored with default names.
 
 In purpose to store data script calls backuping fucntion and send vars: $opertaion=(daily/weekly) and $PATTERN(optional).
 
