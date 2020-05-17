@@ -67,7 +67,7 @@ IF $BACKUP_FOLDER size is OK - script checks current day and compare it with las
 
 In purpose to store data script calls backuping fucntion and send vars: $opertaion=(daily/weekly) and $PATTERN(optional).
 
-And function based on these vars can determine where the data should be stored in $BACKUP_FOLDER/daily or $BACKUP_FOLDER/weekly.
+Then function based on these vars can determine where the data should be stored in $BACKUP_FOLDER/daily or $BACKUP_FOLDER/weekly.
 
 # Results
 - Sample paths of weekly/daily backups
