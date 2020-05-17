@@ -1,12 +1,40 @@
+# Configuring NFS 
+- Firstly
+
+Create a disk partition to make backup folder size fixed.
+In my case that was. 
+```
+parted /dev/sdb
+mkpart primary ext4 0 8MB
+mkfs.ext4 /dev/sdb1
+mkdir -p /mnt/backups
+mount -t auto /dev/sdb1 /mnt/backups
+```
+string in fstab 
+```
+UUID=bf84443b-2246-4cf1-b0f1-51ec162d9c02 /mnt/backups auto    rw,user,auto    0    0
+```
+- NFS
+
+remove restrictive permissions of the backups folder
+```
+chown nobody:nogroup /mnt/backups
+```
+string in /etc/exports
+```
+/mnt/backups clientIP(rw,sync,no_subtree_check)
+```
+Then run ```exportfs -a``` and restart the nfs-server.service
+
 # records in cron 
 - daily 
 
 ```0 1 * * * root backup.sh -o "daily" -e "some mail to recieve msg" -z "pass for backups -p "database password" -l "data base login" -d "data base name" "Salt key for decrypting mail credentials stored in file"```
+
 - weekly 
 
-``` 0 2 * * 6 root test $((10#$(date +\%W)\%2)) -eq 1 && backup.sh -o "weekly" -e "some mail to recieve msg" -z "pass for backups -p "database password" -l "data base login" -d "data base name" "Salt key for decrypting mail credentials stored in file"```
-There isn't some simple solution to run a cron every two weeks. Expresion determinates that current week ODD or even and returns 1 or 0 respectively. Current week is 19-th so cron job will do.
-
+``` 0 2 * * 6 root test $((10#$(date +\%W)\%2)) -eq 1 && backup.sh -o "weekly" -e "some mail to recieve msg" -z "pass for backups -p "database password" -l "data base login" -d "data base name" "Salt key for decrypting mail credentials stored in file"
+```
 # Script workflow
 - VARS
 
@@ -21,8 +49,11 @@ MAX_SIZE - MAX FOLDER SIZE (IN PERCENTS)
 - Clean up 
 
 ```find ${BACKUP_FOLDER}/daily -mtime +14 -type f ! -iname "*${PATTERN}*" -exec rm -rf {} \;```
+
 is looking for files older than 2 weeks in daily backups(exclude files with pattern)
+
 ```find ${BACKUP_FOLDER}/weekly -mtime +90  -type f ! -iname "*${PATTERN}*" -exec rm -rf {} \;```
+
 is looking for files older than 3 months in weekly backups(exclude files with pattern)
 
 - STATEMENTS
