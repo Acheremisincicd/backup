@@ -9,6 +9,10 @@ EMAIL_FILE_PASSWORD=/root/password.txt
 ## PATTERN FOR FILES WHICH ARE SHOULD BE KEEPED FOREVER ON DEVICE
 PATTERN=untouchable_
 
+FOLDER_TO_BACKUP=/opt/web-app
+
+PATH_TO_MAIL_SENDER_SCRIPT=/usr/share/mail_sender.sh
+
 ## MAX FOLDER SIZE (IN PERCENTS)
 MAX_SIZE="90"
 
@@ -32,7 +36,7 @@ done
 function_backuping () {
 
     #BACKUPING SOME FILES INTO ZIP
-    7z a -p${ZIP_PASSWORD} ${BACKUP_FOLDER}/$1/$2$(date '+%d_%m_%Y').zip /opt/web-app/
+    7z a -p${ZIP_PASSWORD} ${BACKUP_FOLDER}/$1/$2$(date '+%d_%m_%Y').zip $FOLDER_TO_BACKUP
 
     #MYSQL BACKUP
     mysqldump -u ${DB_LOGIN} -p${DB_PASS} --databases ${DATABASE} | 7z a -p${ZIP_PASSWORD} ${BACKUP_FOLDER}/$1/$2SQL_$(date '+%d_%m_%Y').zip
@@ -45,7 +49,7 @@ function_backuping () {
 }
 function_email_sender () {
     ## user pass from reciever subject body 
-    ./usr/share/mail_sender.sh $1 $2 $3 $4 $5 $6
+    .${PATH_TO_MAIL_SENDER_SCRIPT} $1 $2 $3 $4 $5 $6
 }
 
 ## DELETING OLD BACKUPS
