@@ -47,6 +47,8 @@ EMAIL_FILE_PASSWORD - file with password for mail in aes-256 (Be sure that the s
 FOLDER_TO_BACKUP - some folder with files needed to be beckuped
 PATTERN - PATTERN FOR FILES WHICH ARE SHOULD BE KEEPED FOREVER ON DEVICE
 MAX_SIZE - MAX FOLDER SIZE (IN PERCENTS)
+
+PATH_TO_MAIL_SENDER_SCRIPT - path to script named mail_sender.sh
 ```
 - Clean up 
 
